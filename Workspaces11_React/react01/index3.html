@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <!-- 바벨이라는것을 추가해야됩니다.-->
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel"> // 명시를 해야된다..
+        const GuGuDan = () => {
+            // 구조분해할당 ... 
+            const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
+            const [second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
+            const [value, setValue] = React.useState('');
+            const [result, setResult] = React.useState('');
+
+            const onChangInput = (e) => {setValue(e.target.value) }
+
+            const onSubmitForm = (e) => {
+                e.preventDefault(); // 현재페이지 유지시키게 하는것
+                            if( parseInt(value) === first * second){
+                                
+                                setResult(` 정답 : ${value}`);
+                                setFirst(Math.ceil(Math.random() * 9));
+                                setSecond(Math.ceil(Math.random() * 9))
+                                setValue('');
+                            } else {
+                                // 틀렷을 경우
+                                setResult(` 땡 `);
+                                setValue('');
+                            }
+            }
+
+            return <React.Fragment> 
+                <div> {first} 곱하기 {second} 는? </div>
+                <form onSubmit = {onSubmitForm} >
+                    <input value = {value} onChange = {onChangInput}/>
+                    <button>입력</button>
+                </form>
+                <div> {result} </div>
+            </React.Fragment>
+        }
+
+
+    </script>
+    <script type="text/babel"> // 
+        // ReactDOM 렌더링 시키는데 e라는 요소를 렌더링시킨다 / likebutton 클래스를 // id가 root인곳에
+        ReactDOM.render(<GuGuDan/>, document.querySelector('#root'));
+    </script>
+</body>
+</html>

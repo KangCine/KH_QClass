@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <!-- 바벨이라는것을 추가해야됩니다.-->
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel"> // 명시를 해야된다..
+        class LikeButton extends React.Component{   // like버튼이라는 클래스
+            constructor(props){                     // 생성자
+                super(props);
+
+                this.state = {
+                    liked : false,
+                };
+            }
+
+        
+            
+            render(){   // 화면에 보여줄 부분 
+                return (
+                    <button type="submit" onClick={ () => { this.setState(this.state.liked ? {liked : false} : {liked : true})}}>
+                        {this.state.liked ? 'True' : 'False'}
+                    </button>
+                    )
+            }
+        }
+    </script>
+    <script type="text/babel"> // 
+        // ReactDOM 렌더링 시키는데 e라는 요소를 렌더링시킨다 / likebutton 클래스를 // id가 root인곳에
+        ReactDOM.render(<div><LikeButton/><LikeButton/><LikeButton/><LikeButton/> </div>, document.querySelector('#root'));
+    </script>
+</body>
+</html>

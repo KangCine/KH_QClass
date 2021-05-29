@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <!-- 바벨이라는것을 추가해야됩니다.-->
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel"> // 명시를 해야된다..
+        class GuGuDan extends React.Component{
+            constructor(props){
+                super(props)
+
+                this.state = {
+                    first : Math.ceil(Math.random() * 9),
+                    second : Math.ceil(Math.random() * 9),
+                    value : '',
+                    result : '',
+                }
+            }
+
+            onChange = (e) => {this.setState({value : e.target.value})};
+
+            onSubmit = (e) => {
+                            e.preventDefault(); // 현재페이지 유지시키게 하는것
+                            if( parseInt(this.state.value) === this.state.first * this.state.second){
+                                // 맞을 경우
+                                this.setState({
+                                    result : ` 정답 : ${this.state.value}`,
+                                    first : Math.ceil(Math.random() * 9),
+                                    second : Math.ceil(Math.random() * 9),
+                                    value : '',
+                                })
+                                this.focused.focus();
+                            } else {
+                                // 틀렷을 경우
+                                this.setState({
+                                    result : `땡`,
+                                    value : '',
+                                })
+                            }
+                        }
+
+            focused; // hi 선언           
+
+            render(){
+                return (
+                    <div>
+                        <div> {this.state.first} 곱하기 {this.state.second} 는? </div>
+                        <form onSubmit={ this.onSubmit }>
+                            <input ref = { (c) => {this.focused = c}}type="number" value={this.state.value} onChange= { this.onChange }/>
+                            <button> 입력 </button>
+                        </form>
+                        <div>{this.state.result}</div>
+                    </div>
+                );
+            }
+        }
+
+
+    </script>
+    <script type="text/babel"> // 
+        // ReactDOM 렌더링 시키는데 e라는 요소를 렌더링시킨다 / likebutton 클래스를 // id가 root인곳에
+        ReactDOM.render(<div><GuGuDan/><GuGuDan/><GuGuDan/><GuGuDan/><GuGuDan/><GuGuDan/><GuGuDan/><GuGuDan/></div>, document.querySelector('#root'));
+    </script>
+</body>
+</html>
