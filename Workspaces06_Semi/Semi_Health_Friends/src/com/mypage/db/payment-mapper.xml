@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="paymentmapper">
+
+	
+	<resultMap type="paymentDto" id="paymentMap">
+		<result property="payment_no" column="PAYMENT_NO" />
+		<result property="member_email" column="MEMBER_EMAIL" />
+		<result property="payment_account" column="PAYMENT_ACCOUNT" />
+		<result property="payment_date" column="PAYMENT_DATE" />
+	</resultMap>
+
+	
+	<update id="paymentUpdate" parameterType="registDto">
+		UPDATE MEMBER
+		SET MEMBER_ROLE = 'PREMIUM'
+		WHERE MEMBER_EMAIL = #{member_email}
+	</update>
+	
+	<update id="paymentDowndate" parameterType="registDto">
+		UPDATE MEMBER
+		SET MEMBER_ROLE = 'USER'
+		WHERE MEMBER_EMAIL = #{member_email}
+	</update>
+	
+	<insert id="paymentInsert" parameterType="paymentDto">
+		INSERT INTO PAYMENT
+		VALUES(PAYMENTSEQ.NEXTVAL, #{member_email}, #{payment_account}, SYSDATE)
+	</insert>
+	
+	<select id="paymentList" resultType="paymentDto">
+		SELECT PAYMENT_NO, MEMBER_EMAIL, PAYMENT_ACCOUNT, PAYMENT_DATE
+		FROM PAYMENT
+		ORDER BY PAYMENT_NO DESC
+	</select>
+	
+	<select id="paymentListMy" resultType="paymentDto">
+		SELECT PAYMENT_NO, MEMBER_EMAIL, PAYMENT_ACCOUNT, PAYMENT_DATE
+		FROM PAYMENT
+		WHERE MEMBER_EMAIL = #{member_email}
+		ORDER BY PAYMENT_NO DESC
+	</select>
+	
+	<select id="paymentListPaging" parameterType="map" resultType="paymentDto">
+	<![CDATA[
+		SELECT B.PAYMENT_NO, B.MEMBER_EMAIL, B.PAYMENT_ACCOUNT, B.PAYMENT_DATE FROM
+		(SELECT ROWNUM AS RNUM, A.PAYMENT_NO, A.MEMBER_EMAIL, A.PAYMENT_ACCOUNT, A.PAYMENT_DATE FROM
+		(SELECT PAYMENT_NO, MEMBER_EMAIL, PAYMENT_ACCOUNT, PAYMENT_DATE FROM PAYMENT
+		ORDER BY PAYMENT_NO DESC) A
+		WHERE ROWNUM <= #{endRow} ) B
+		WHERE B.RNUM > #{startRow}
+	]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM PAYMENT
+	</select>
+	
+	<select id="paymentListMyPaging" parameterType="map" resultType="paymentDto">
+	<![CDATA[
+		SELECT B.PAYMENT_NO, B.MEMBER_EMAIL, B.PAYMENT_ACCOUNT, B.PAYMENT_DATE FROM
+		(SELECT ROWNUM AS RNUM, A.PAYMENT_NO, A.MEMBER_EMAIL, A.PAYMENT_ACCOUNT, A.PAYMENT_DATE FROM
+		(SELECT PAYMENT_NO, MEMBER_EMAIL, PAYMENT_ACCOUNT, PAYMENT_DATE FROM PAYMENT
+		WHERE MEMBER_EMAIL = #{member_email}
+		ORDER BY PAYMENT_NO DESC) A
+		WHERE ROWNUM <= #{endRow} ) B
+		WHERE B.RNUM > #{startRow}
+	]]>
+	</select>
+	
+	<select id="getMyTotalCount" resultType="int">
+		SELECT COUNT(*) FROM PAYMENT WHERE MEMBER_EMAIL = #{member_email}
+	</select>
+	
+</mapper>
