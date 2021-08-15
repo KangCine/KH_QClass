@@ -29,6 +29,8 @@ JSP & Servlet에 대한 전반적인 연습 코드와 Mybatis를 활용한 소�
 
 Semiproject에 대한 소스코드 입니다.
 
+JSP & Servlet으로 수행한 프로젝트입니다.
+
 # Workspaces07_Spring
 
 Spring Framework를 활용한 소스코드입니다.
@@ -60,3 +62,5 @@ VSCODE를 사용하였습니다.
 # Workspaces13_Final
 
 Finalproject입니다.
+
+Front는 React를 사용하였고 Back은 Spring을 사용하여 연동하였습니다.
